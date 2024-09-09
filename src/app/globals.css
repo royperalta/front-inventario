@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 50, 50, 50; /* Texto casi negro */
+  --background-color: 255, 255, 255; /* Fondo blanco */
+  --accent-color: 0, 123, 255; /* Color de acento */
+  --border-color: 220, 220, 220; /* Color de borde */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 50, 50, 50; /* Texto casi negro */
+    --background-color: 34, 34, 34; /* Fondo oscuro en modo oscuro */
+    --accent-color: 0, 123, 255; /* Color de acento */
+    --border-color: 50, 50, 50; /* Color de borde oscuro */
+  }
+}
+
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-color));
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@layer components {
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply bg-white shadow-md rounded-lg p-6;
+    @apply border border-gray-200;
+    @apply transition-transform duration-300 ease-in-out;
+  }
+
+  .card:hover {
+    @apply transform scale-105;
+  }
+
+  .button-primary {
+    @apply bg-indigo-600 text-white font-medium py-2 px-4 rounded-md;
+    @apply transition-colors duration-300 ease-in-out;
+  }
+
+  .button-primary:hover {
+    @apply bg-indigo-700;
+  }
+
+  .header {
+    @apply text-3xl font-extrabold;
+  }
+
+  .footer {
+    @apply text-sm;
+  }
+
+  .input-field {
+    @apply border border-gray-300 rounded-md p-2;
+    @apply focus:border-indigo-500 focus:ring-indigo-500;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
