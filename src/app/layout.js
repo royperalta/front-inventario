@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
             </div>
           </nav>
         </header>
-        <main className="flex-grow p-4">{children}</main>
+        <main className="flex-grow py-1">{children}</main>
         <footer className="bg-blue-600 text-white text-center p-2">
           &copy; 2024 Store Management
         </footer>

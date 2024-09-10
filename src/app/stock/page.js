@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function Stock() {
+
+   const local = "http://localhost:9000"
+    const url = "https://envivo.top:9000"
   const [productos, setProductos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -13,7 +16,7 @@ export default function Stock() {
 
   const fetchProductos = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/stock', {
+      const response = await axios.get(`${url}/api/stock`, {
         params: { search: searchTerm }
       });
       setProductos(response.data);

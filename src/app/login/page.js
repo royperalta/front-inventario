@@ -12,7 +12,7 @@ export default function LoginPage() {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:9000/api/auth/login', { username, password });
+            const response = await axios.post(`${url}/api/auth/login`, { username, password });
             if (response.status === 200) {
                 // Guardar el token en el almacenamiento local o en cookies
                 localStorage.setItem('token', response.data.token);

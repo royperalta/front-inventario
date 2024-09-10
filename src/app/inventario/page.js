@@ -4,6 +4,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function Inventario() {
+
+    const local = "http://localhost:9000"
+    const url = "https://envivo.top:9000"
+
     const [productos, setProductos] = useState([]);
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
     const [nuevoProducto, setNuevoProducto] = useState({
@@ -36,7 +40,7 @@ export default function Inventario() {
 
     const fetchProductos = async () => {
         try {
-            const response = await axios.get('http://localhost:9000/api/productos');
+            const response = await axios.get(`${url}/api/productos`);
             setProductos(response.data);
         } catch (error) {
             console.error('Error al obtener los productos:', error);
@@ -97,14 +101,14 @@ export default function Inventario() {
         try {
             if (productoSeleccionado) {
                 // Si el producto ya existe, actualizar
-                await axios.put(`http://localhost:9000/api/productos/actualizar/${productoSeleccionado.id}`, {
+                await axios.put(`${url}/api/productos/actualizar/${productoSeleccionado.id}`, {
                     ...nuevoProducto,
                     stock: stock + agregarStock // Sumar el stock existente con el nuevo stock
                 });
                 setMensaje('Producto actualizado correctamente.');
             } else {
                 // Si es un nuevo producto, crear
-                await axios.post('http://localhost:9000/api/productos/crear', {
+                await axios.post(`${url}/api/productos/crear`, {
                     ...nuevoProducto,
                     stock: stock + agregarStock // Establecer el stock inicial
                 });
@@ -123,7 +127,7 @@ export default function Inventario() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:9000/api/auth/login', { usuario, contrasena });
+            const response = await axios.post(`${url}/api/auth/login`, { usuario, contrasena });
             localStorage.setItem('token', response.data.token);
             setAutenticado(true);
             setUsuario('');

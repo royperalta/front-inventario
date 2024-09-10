@@ -4,6 +4,8 @@ import axios from "axios";
 import dayjs from "dayjs";
 import Login from "../login/page"; // Ajusta la ruta según tu estructura de archivos
 
+
+
 export default function Ventas() {
   const [productos, setProductos] = useState([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
@@ -16,6 +18,9 @@ export default function Ventas() {
   const [ventaInfo, setVentaInfo] = useState(null);
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
 
+  const local = "http://localhost:9000"
+  const url = "https://envivo.top:9000"
+
   useEffect(() => {
     if (!loggedIn) return;
 
@@ -23,7 +28,7 @@ export default function Ventas() {
     const fetchProductos = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:9000/api/productos", {
+        const response = await axios.get(`${url}/api/productos`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setProductos(response.data);
@@ -82,7 +87,7 @@ export default function Ventas() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:9000/api/ventas/crear",
+        `${url}/api/ventas/crear`,
         {
           producto_id: productoSeleccionado.id,
           cantidad,
@@ -175,7 +180,7 @@ export default function Ventas() {
                         <span className="text-gray-500">ID: {producto.id}</span>
                       </div>
                       <div className="text-sm text-gray-600">
-                        Precio: S/ {producto.precio_venta.toFixed(2)} - Stock: {producto.stock}
+                        Precio: S/ {producto.precio_venta} - Stock: {producto.stock}
                       </div>
                     </li>
                   ))}
@@ -214,6 +219,7 @@ export default function Ventas() {
                     type="number"
                     value={precioVenta}
                     onChange={handlePrecioVentaChange}
+                    disabled
                     className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     step="0.01"
                   />
@@ -223,7 +229,7 @@ export default function Ventas() {
                   <label className="block text-sm font-medium text-gray-700">Total Venta</label>
                   <input
                     type="text"
-                    value={`S/ ${totalVenta.toFixed(2)}`}
+                    value={`S/ ${totalVenta}`}
                     disabled
                     className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm bg-gray-100"
                   />
