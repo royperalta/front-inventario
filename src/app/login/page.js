@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 export default function LoginPage() {
+    const local = "http://localhost:9000"
+    const url = "http://localhost:9000"
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
