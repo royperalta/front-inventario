@@ -4,8 +4,6 @@ import axios from "axios";
 import dayjs from "dayjs";
 import Login from "../login/page"; // Ajusta la ruta según tu estructura de archivos
 
-
-
 export default function Ventas() {
   const [productos, setProductos] = useState([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
@@ -16,28 +14,30 @@ export default function Ventas() {
   const [busqueda, setBusqueda] = useState("");
   const [totalVenta, setTotalVenta] = useState(0);
   const [ventaInfo, setVentaInfo] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const local = "http://localhost:9000"
-  const url = "https://envivo.top:9000"
+  const local = "http://localhost:9000";
+  const url = "https://envivo.top:9000";
 
   useEffect(() => {
-    if (!loggedIn) return;
+    // Verificar el token en localStorage cuando el componente se monta
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLoggedIn(true);
+      // Obtener todos los productos al cargar la página
+      const fetchProductos = async () => {
+        try {
+          const response = await axios.get(`${url}/api/productos`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setProductos(response.data);
+        } catch (error) {
+          console.error("Error al obtener los productos:", error);
+        }
+      };
 
-    // Obtener todos los productos al cargar la página
-    const fetchProductos = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`${url}/api/productos`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setProductos(response.data);
-      } catch (error) {
-        console.error("Error al obtener los productos:", error);
-      }
-    };
-
-    fetchProductos();
+      fetchProductos();
+    }
   }, [loggedIn]);
 
   const handleProductoChange = (producto) => {

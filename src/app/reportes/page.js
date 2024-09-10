@@ -1,11 +1,10 @@
-'use client';
+"use client";
 import { useState, useEffect } from 'react';
 import Login from '../login/page'; // Ajusta la ruta según tu estructura de archivos
 
 const Reportes = () => {
-
-    const local = "http://localhost:9000"
-    const url = "https://envivo.top:9000"
+    const local = "http://localhost:9000";
+    const url = "https://envivo.top:9000";
     const [totalVendido, setTotalVendido] = useState(0);
     const [totalInvertido, setTotalInvertido] = useState(0);
     const [totalGanado, setTotalGanado] = useState(0);
@@ -13,63 +12,70 @@ const Reportes = () => {
     const [ventas, setVentas] = useState([]);
     const [filtroProducto, setFiltroProducto] = useState('');
     const [productosFiltrados, setProductosFiltrados] = useState([]);
-    const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'));
+    const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
-        if (!loggedIn) return;
-
-        const fetchReportes = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const headers = new Headers({ 'Authorization': `Bearer ${token}` });
-
-                const responseVendido = await fetch(`${url}/api/reportes/total-vendido`, { headers });
-                const dataVendido = await responseVendido.json();
-                setTotalVendido(dataVendido.totalVendido || 0);
-
-                const responseInvertido = await fetch(`${url}/api/reportes/total-invertido`, { headers });
-                const dataInvertido = await responseInvertido.json();
-                setTotalInvertido(dataInvertido.totalInvertido || 0);
-
-                const responseGanado = await fetch(`${url}/api/reportes/total-ganado`, { headers });
-                const dataGanado = await responseGanado.json();
-                setTotalGanado(dataGanado.totalGanado || 0);
-            } catch (error) {
-                console.error('Error al obtener los reportes:', error);
+        const checkAuth = () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                setLoggedIn(true);
+                fetchReportes(token);
+                fetchProductos(token);
+                fetchVentas(token);
+            } else {
+                setLoggedIn(false);
             }
         };
 
-        const fetchProductos = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const headers = new Headers({ 'Authorization': `Bearer ${token}` });
+        checkAuth();
+    }, []);
 
-                const response = await fetch(`${url}/api/productos`, { headers });
-                const data = await response.json();
-                setProductos(data);
-                filtrarProductos(data, filtroProducto);
-            } catch (error) {
-                console.error('Error al obtener los productos:', error);
-            }
-        };
+    const fetchReportes = async (token) => {
+        try {
+            const headers = new Headers({ 'Authorization': `Bearer ${token}` });
+            
+            const [responseVendido, responseInvertido, responseGanado] = await Promise.all([
+                fetch(`${url}/api/reportes/total-vendido`, { headers }),
+                fetch(`${url}/api/reportes/total-invertido`, { headers }),
+                fetch(`${url}/api/reportes/total-ganado`, { headers })
+            ]);
 
-        const fetchVentas = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const headers = new Headers({ 'Authorization': `Bearer ${token}` });
+            const [dataVendido, dataInvertido, dataGanado] = await Promise.all([
+                responseVendido.json(),
+                responseInvertido.json(),
+                responseGanado.json()
+            ]);
 
-                const response = await fetch(`${url}/api/ventas`, { headers });
-                const data = await response.json();
-                setVentas(Array.isArray(data) ? data : []);
-            } catch (error) {
-                console.error('Error al obtener las ventas:', error);
-            }
-        };
+            setTotalVendido(dataVendido.totalVendido || 0);
+            setTotalInvertido(dataInvertido.totalInvertido || 0);
+            setTotalGanado(dataGanado.totalGanado || 0);
+        } catch (error) {
+            console.error('Error al obtener los reportes:', error);
+        }
+    };
 
-        fetchReportes();
-        fetchProductos();
-        fetchVentas();
-    }, [filtroProducto, loggedIn]);
+    const fetchProductos = async (token) => {
+        try {
+            const headers = new Headers({ 'Authorization': `Bearer ${token}` });
+            const response = await fetch(`${url}/api/productos`, { headers });
+            const data = await response.json();
+            setProductos(data);
+            filtrarProductos(data, filtroProducto);
+        } catch (error) {
+            console.error('Error al obtener los productos:', error);
+        }
+    };
+
+    const fetchVentas = async (token) => {
+        try {
+            const headers = new Headers({ 'Authorization': `Bearer ${token}` });
+            const response = await fetch(`${url}/api/ventas`, { headers });
+            const data = await response.json();
+            setVentas(Array.isArray(data) ? data : []);
+        } catch (error) {
+            console.error('Error al obtener las ventas:', error);
+        }
+    };
 
     const filtrarProductos = (productos, filtro) => {
         const productosFiltrados = productos.filter(producto =>
@@ -103,6 +109,7 @@ const Reportes = () => {
 
     const handleFiltroChange = (e) => {
         setFiltroProducto(e.target.value);
+        filtrarProductos(productos, e.target.value);
     };
 
     const handleLogout = () => {
