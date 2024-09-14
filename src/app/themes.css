@@ -1,6 +1,53 @@
+/* themes.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Tema Rojo */
+.theme-red {
+    --primary-color: #e53935;
+    --secondary-color: #1E88E5;
+    --background-color: #F5F5F5;
+    --text-color: #424242;
+  }
+  
+  /* Tema Azul */
+  .theme-blue {
+    --primary-color: #1E88E5;
+    --secondary-color: #FF9800;
+    --background-color: #F0F4F8;
+    --text-color: #333333;
+  }
+  
+  /* Tema Verde */
+  .theme-green {
+    --primary-color: #4CAF50;
+    --secondary-color: #FF5722;
+    --background-color: #E8F5E9;
+    --text-color: #212121;
+  }
+  
+  /* Aplicar variables de tema */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .header, .sidebar, .footer {
+    background-color: var(--primary-color);
+  }
+  
+  .nav-link {
+    color: var(--text-color);
+  }
+  
+  .nav-link:hover {
+    background-color: var(--secondary-color);
+  }
+  
+
 
 :root {
   --foreground-rgb: 50, 50, 50; /* Texto casi negro */
@@ -18,38 +65,13 @@
   }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
 
 body {
   color: rgb(var(--foreground-rgb));
   background-color: rgb(var(--background-color));
-  font-family: 'Work Sans', 'Roboto', sans-serif; /* Usar Work Sans como fuente principal */
-  font-weight: 400; /* Peso normal por defecto */
-  line-height: 1.6; /* Espaciado de línea para mejorar la legibilidad */
+  font-family: 'Inter', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Work Sans', 'Roboto', sans-serif; /* Usar Work Sans para encabezados */
-  font-weight: 700; /* Peso más grueso para encabezados */
-}
-
-p, a, span, div {
-  font-family: 'Work Sans', 'Roboto', sans-serif; /* Usar Work Sans para párrafos y otros elementos */
-  font-weight: 400; /* Peso normal para el texto de párrafos y enlaces */
-}
-
-a {
-  text-decoration: none; /* Sin subrayado en enlaces por defecto */
-  color: rgb(var(--link-color)); /* Color de enlace ajustable */
-  transition: color 0.3s ease; /* Transición suave para el color del enlace */
-}
-
-a:hover, a:focus {
-  color: rgb(var(--link-hover-color)); /* Color de enlace en hover/focus */
-  text-decoration: underline; /* Subrayar enlace en hover/focus */
-}
-
 
 @layer components {
   .container {
@@ -93,9 +115,4 @@ a:hover, a:focus {
   .text-balance {
     text-wrap: balance;
   }
-}
-
-
-.bg-custom-red {
-  background-color: #e53935;
 }
