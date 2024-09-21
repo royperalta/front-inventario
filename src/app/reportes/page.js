@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Login from '../login/page'; // Ajusta la ruta según tu estructura de archivos
-import VentasDiarias from './ventasdiarias'; // Importa el nuevo componente
+import VentasDiarias from './VentasDiarias'; // Importa el nuevo componente
 
 const Reportes = () => {
     const urldev = "http://localhost";
