@@ -7,6 +7,7 @@
   --background-color: 255, 255, 255; /* Fondo blanco */
   --accent-color: 0, 123, 255; /* Color de acento */
   --border-color: 220, 220, 220; /* Color de borde */
+  --highlight-color: #cc1902; /* Color adicional */
 }
 
 @media (prefers-color-scheme: dark) {

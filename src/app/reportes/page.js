@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Login from '../login/page'; // Ajusta la ruta según tu estructura de archivos
+import VentasDiarias from './ventasdiarias'; // Importa el nuevo componente
 
 const Reportes = () => {
     const urldev = "http://localhost";
@@ -150,6 +151,8 @@ const Reportes = () => {
         return <Login onLogin={(status) => setLoggedIn(status)} />;
     }
 
+    const token = localStorage.getItem('token'); // Obtener el token para pasarlo a VentasDiarias
+
     return (
         <div className="p-2 space-y-2">
             {/* <button
@@ -187,6 +190,10 @@ const Reportes = () => {
                     <h2 className="text-xl font-semibold mb-2">Precio Compra por Stock</h2>
                     <p className="text-2xl font-bold text-purple-600">S/{totalAcumulado}</p>
                 </div>
+            </div>
+            <div>
+                {/* Otros componentes o contenido */}
+            <VentasDiarias />
             </div>
 
             <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-200">

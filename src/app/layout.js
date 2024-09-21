@@ -108,7 +108,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen flex flex-col">
         <div
           ref={sidebarRef}
-          className={`fixed inset-0 w-64 bg-custom-red text-white z-50 transform transition-transform duration-300 ${isMobile
+          className={`fixed inset-0 w-64 bg-[#cc1902] text-white z-50 transform transition-transform duration-300 ${isMobile
               ? isSidebarOpen
                 ? "translate-x-0"
                 : "-translate-x-full"
@@ -162,7 +162,7 @@ export default function RootLayout({ children }) {
         </div>
 
         <div className={`flex-grow transition-all duration-300 ${isSidebarOpen && !isMobile ? "ml-64" : ""}`}>
-          <header className="bg-custom-red text-white p-4">
+          <header className="bg-[#cc1902] text-white p-4">
             <nav className="flex justify-between items-center">
               <button
                 className="text-white p-2 focus:outline-none md:hidden"
@@ -188,7 +188,7 @@ export default function RootLayout({ children }) {
                   <FaBox className="mr-1" /> Stock
                 </Link>
                 {!user ? (
-                  <Link href="/login" className="flex items-center hover:text-gray-300">
+                  <Link href="/login" className="flex items-center hover:text-gray-100">
                     <FaSignInAlt className="mr-1" /> Login
                   </Link>
                 ) : (
@@ -196,7 +196,7 @@ export default function RootLayout({ children }) {
                     <span className="flex items-center">
                       <FaUserCircle className="mr-1" /> Hola, {user.username}
                     </span>
-                    <button onClick={handleLogout} className="flex items-center text-red-400 hover:text-red-600">
+                    <button onClick={handleLogout} className="flex items-center text-red-400 hover:text-gray-100">
                       <FaSignOutAlt className="mr-1" /> Logout
                     </button>
                   </>
@@ -208,7 +208,7 @@ export default function RootLayout({ children }) {
           <main>{children}</main>
         </div>
 
-        <footer className="bg-red-700 text-white text-center p-2">
+        <footer className="bg-[#cc1902] text-white text-center p-2">
           &copy; 2024 Store Management
         </footer>
       </body>
